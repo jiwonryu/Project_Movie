@@ -15,12 +15,12 @@ void* mv_genMvInfo(char* name, float score, int runTime, char* country)
 {
 	movInfo_t* mvPtr;
 	
-	mvPtr = (*movInfo_t)malloc(sizeof(movInfo)); //allocate memory
+	mvPtr = (movInfo_t*)malloc(sizeof(struct movInfo)); //allocate memory
 	
-	mvPtr->name = name; // set the member variables
+	strcpy(mvPtr->name, name); // set the member variables
 	mvPtr->score = score;
 	mvPtr->runTime = runTime;
-	mvPtr->madeIn = madeIn;
+	strcpy(mvPtr->madeIn, country);
 	
 	return (void*)mvPtr;
 }
@@ -36,6 +36,7 @@ void mv_print(void* obj)
 	
 	printf("Name : %s (%s)\n", mvPtr->name, mvPtr->madeIn);
 	printf("running time : %i, score : %f\n", mvPtr->runTime, mvPtr->score);
+	printf("-------------------------------------------------\n");
 	
 	return;
 }
@@ -83,9 +84,9 @@ char* mv_getName(void* obj)
 		printf("[ERROR] failed to print the movie Info! (object is NULL)\n");
 	}
 	
-	char[] name;
-	name = mvPtr->name;
-	
+	char name[100];
+	strcpy(mvPtr->name, name); 
+		
 	return name;
 }
 
@@ -99,8 +100,8 @@ char* mv_getCountry(void* obj)
 		printf("[ERROR] failed to print the movie Info! (object is NULL)\n");
 	}
 	
-	char[] madeIn;
-	madeIn = mvPtr->madeIn;
+	char madeIn[10];
+	strcpy(mvPtr->madeIn, madeIn);
 	
 	return madeIn;
 }

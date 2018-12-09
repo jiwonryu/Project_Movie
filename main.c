@@ -21,35 +21,37 @@ int main(int argc, char *argv[]) {
 	
 	
 	//1. reading the movie.dat-----------------------------
-	printf("Reading the data files...");
+	printf("Reading the data files...\n");
 	//1.1 FILE open
-	fp = fopen("C:\Users\pyosp\OneDrive\바탕 화면\류지원 코딩\project\movie\movie.dat", "r");
+	fp = fopen("movie.dat", "r");
 	if(fgetc(fp) == -1) //file open succes?
 	{
-		printf("[ERROR] failed to road the data files\n")
+		printf("[ERROR] failed to road the data files\n");
 	}
+	fseek(fp, 0L, SEEK_SET);
+	
 	//1.2 list generation (use function list_genList() )
 	list = list_genList();
-	
+	ndPtr = list;
 	//1.3 read each movie data from the file and add it to the linked list
 	while (1 /* read name, country, runtime and score*/ )
 	{	
 		fscanf(fp,"%s%s%d%f",name,country,&runTime,&score);
 		mvInfo = mv_genMvInfo(name, score, runTime, country);
-		list_addNext(mvPtr, list);
+		list_addNext(mvInfo, ndPtr);
 	
 	//generate a movie info instance(mvInfo) with function mv_genMvInfo()
-		if(feof(fp)== 0)
+		if(fgetc(fp) == -1)
 		{
-		list_addTail(mvInfo, list);
-		break;
+			//list_addTail(mvInfo, ndPtr);
+			break;
 		}
 	}
 
 	//1.4 FILE close
 	fclose(fp);
 	
-	printf("Read done! %d items are read\n", (list_len(list)-1));
+	printf("Read done! %d items are read\n", list_len(list));
 	
 	//2. program start
 	
@@ -72,59 +74,23 @@ int main(int argc, char *argv[]) {
 				printf("printing all the movies in the list.....\n\n\n");
 				
 				ndPtr = list;
-				while (/* repeat until the ndPtr points to the end node */)
-				{
+				int len = 0;
+				
+				//while ( list_isEndNode(ndPtr) == 0 ) //repeat until the ndPtr points to the end node
+				//{
+					printf("-------------------------------------------------\n");
+					len = list_repeatFunc(mv_print,ndPtr);
+						
 					//2.2 print a movie data : use functions of movie.c and linkedList.c
 					//ndPtr = the next node of the ndPtr;
 					//get object of ndPtr to mvInfo void pointer
 					//print the contents of the mvInfo
-				}
+				//}
+				
+				printf("\t- totally %d movies are listed!\n", len);
 				
 				break;
 				
-			case 2: //print movies of specific country
-				//2.3.1 get country name to search for
-				
-				ndPtr = list;
-					while (/* repeat until the ndPtr points to the end node */)
-				{
-					//2.3.2 print a movie data : use functions of movie.c and linkedList.c
-					//ndPtr = the next node of the ndPtr;
-					//get object of ndPtr to mvInfo void pointer
-					//if the input country matches to the country of the movie,
-					//then print the contents of the mvInfo
-				}
-				
-				break;
-				
-			case 3:
-				//2.4.1 get minimal runtime value to search for
-				
-				ndPtr = list;
-					while (/* repeat until the ndPtr points to the end node */)
-				{
-					//2.4.2 print a movie data : use functions of movie.c and linkedList.c
-					//ndPtr = the next node of the ndPtr;
-					//get object of ndPtr to mvInfo void pointer
-					//if the input runtime is lower than the runtime of the movie,
-					//then print the contents of the mvInfo
-				}
-				
-				break;
-				
-			case 4:
-				//2.5.1 get minimal score value to search for
-				
-				ndPtr = list;
-					while (/* repeat until the ndPtr points to the end node */)
-				{
-					//2.5.2 print a movie data : use functions of movie.c and linkedList.c
-					//ndPtr = the next node of the ndPtr;
-					//get object of ndPtr to mvInfo void pointer
-					//if the input score is lower than the score of the movie,
-					//then print the contents of the mvInfo
-				}
-				break;
 				
 			case 5:
 				printf("Bye!\n\n");
