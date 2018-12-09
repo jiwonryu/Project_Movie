@@ -21,24 +21,50 @@ int main(int argc, char *argv[]) {
 	
 	
 	//1. reading the movie.dat-----------------------------
+	printf("Reading the data files...");
 	//1.1 FILE open
-	
+	fp = fopen("C:\Users\pyosp\OneDrive\바탕 화면\류지원 코딩\project\movie\movie.dat", "r");
+	if(fgetc(fp) == -1) //file open succes?
+	{
+		printf("[ERROR] failed to road the data files\n")
+	}
 	//1.2 list generation (use function list_genList() )
 	list = list_genList();
 	
 	//1.3 read each movie data from the file and add it to the linked list
-	while ( /* read name, country, runtime and score*/ )
+	while (1 /* read name, country, runtime and score*/ )
 	{	
-		//generate a movie info instance(mvInfo) with function mv_genMvInfo()
+		fscanf(fp,"%s%s%d%f",name,country,&runTime,&score);
+		mvInfo = mv_genMvInfo(name, score, runTime, country);
+		list_addNext(mvPtr, list);
+	
+	//generate a movie info instance(mvInfo) with function mv_genMvInfo()
+		if(feof(fp)== 0)
+		{
 		list_addTail(mvInfo, list);
+		break;
+		}
 	}
 
 	//1.4 FILE close
+	fclose(fp);
+	
+	printf("Read done! %d items are read\n", (list_len(list)-1));
 	
 	//2. program start
+	
 	while(exit_flag == 0) 
 	{
 		//2.1 print menu message and get input option
+		printf("\n\n\n------------------ Menu ------------------\n");
+		printf("1. print all the movies\n");
+		printf("2. search for specific country movies\n");
+		printf("3. search for specific runtime movies\n");
+		printf("4. search for specific score movies\n");
+		printf("5. exit\n");
+		printf("------------------ Menu ------------------\n\n");
+		printf("-- select an option : ");
+		scanf("%d", &option);		
 		
 		switch(option)
 		{
