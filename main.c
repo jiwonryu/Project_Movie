@@ -22,30 +22,28 @@ int main(int argc, char *argv[]) {
 	
 	//1. reading the movie.dat-----------------------------
 	printf("Reading the data files...\n");
+	
 	//1.1 FILE open
 	fp = fopen("movie.dat", "r");
 	if(fgetc(fp) == -1) //file open succes?
 	{
 		printf("[ERROR] failed to road the data files\n");
 	}
-	fseek(fp, 0L, SEEK_SET);
+	fseek(fp, 0L, SEEK_SET);//initialize file position pointer 
 	
 	//1.2 list generation (use function list_genList() )
 	list = list_genList();
 	ndPtr = list;
-	//1.3 read each movie data from the file and add it to the linked list
-	while (1 /* read name, country, runtime and score*/ )
-	{	
-		fscanf(fp,"%s%s%d%f",name,country,&runTime,&score);
-		mvInfo = mv_genMvInfo(name, score, runTime, country);
-		list_addNext(mvInfo, ndPtr);
 	
-	//generate a movie info instance(mvInfo) with function mv_genMvInfo()
-		if(fgetc(fp) == -1)
-		{
-			//list_addTail(mvInfo, ndPtr);
+	//1.3 read each movie data from the file and add it to the linked list
+	while (1) 
+	{	
+		fscanf(fp,"%s%s%d%f",name,country,&runTime,&score); //read name, country, runtime and score
+		mvInfo = mv_genMvInfo(name, score, runTime, country); //generate a movie info instance(mvInfo) with function mv_genMvInfo()
+		list_addNext(mvInfo, ndPtr); //generate a next node with a movie info
+		list_getNextNd(ndPtr);list_getNextNd(ndPtr);//change ndPtr to point next node
+		if(fgetc(fp) == -1)  //if the file is end finish adding node
 			break;
-		}
 	}
 
 	//1.4 FILE close
@@ -67,31 +65,99 @@ int main(int argc, char *argv[]) {
 		printf("------------------ Menu ------------------\n\n");
 		printf("-- select an option : ");
 		scanf("%d", &option);		
+		while (getchar() != '\n');
+		
+		int len;
+		char inputs[10];
+		float inputf;
+		int inputn;
+		void* cmpList;
+		
+		//2.2 print a movie data : use functions of movie.c and linkedList.c
 		
 		switch(option)
 		{
 			case 1: //print all the movies
 				printf("printing all the movies in the list.....\n\n\n");
 				
+				cmpList = list_genList();
 				ndPtr = list;
-				int len = 0;
-				
-				//while ( list_isEndNode(ndPtr) == 0 ) //repeat until the ndPtr points to the end node
-				//{
-					printf("-------------------------------------------------\n");
-					len = list_repeatFunc(mv_print,ndPtr);
-						
-					//2.2 print a movie data : use functions of movie.c and linkedList.c
-					//ndPtr = the next node of the ndPtr;
-					//get object of ndPtr to mvInfo void pointer
-					//print the contents of the mvInfo
-				//}
-				
+				len = 0;
+				printf("-------------------------------------------------\n");
+				len = list_repeatFunc(mv_print,ndPtr);
 				printf("\t- totally %d movies are listed!\n", len);
 				
 				break;
+			case 2://specific country
+			
+				cmpList = list_genList(); // make a new list
+				ndPtr = list;
+				len = 0;
+				printf("select a country : ");
+				scanf("%s", inputs); //input country
+				while (getchar() != '\n'); //clean buffer
+	
+				while (1)
+				{	
+					ndPtr = list_getNextNd(ndPtr);
+					if(!(strcmp(mv_getCountry(list_getNdObj(ndPtr)), inputs))) //compare input country with mv_country of node
+						list_addNext(list_getNdObj(ndPtr), cmpList); //copy mv_info to new list
+					if(list_isEndNode(ndPtr))
+						break;
+				}
+				
+				printf("-------------------------------------------------\n");
+				len = list_repeatFunc(mv_print,cmpList);
+				printf("\t- totally %d movies are listed!\n", len);
+				
+				break;
+			case 3://specific runtime
+			
+				cmpList = list_genList();
+				ndPtr = list;
+				len = 0;
+				printf("input runtime : ");
+				scanf("%d", &inputn); // input runtime
+				while (getchar() != '\n'); // clean buffer
+				
+				while (1)
+				{	
+					ndPtr = list_getNextNd(ndPtr);
+					if(mv_getRunTime(list_getNdObj(ndPtr)) > inputn) //compare input runtime with mv_country of node
+						list_addNext(list_getNdObj(ndPtr), cmpList); //copy mv_info to new list
+					if(list_isEndNode(ndPtr))
+						break;
+				}
+				
+				printf("-------------------------------------------------\n");
+				len = list_repeatFunc(mv_print,cmpList);
+				printf("\t- totally %d movies are listed!\n", len);
 				
 				
+				break;
+			case 4://specific score
+				
+				cmpList = list_genList();
+				ndPtr = list;
+				len = 0;
+				printf("input score : ");
+				scanf("%f", &inputf); //input score
+				while (getchar() != '\n'); //clean buffer
+				
+				while (1)
+				{	
+					ndPtr = list_getNextNd(ndPtr);
+					if(mv_getScore(list_getNdObj(ndPtr)) > inputf)
+						list_addNext(list_getNdObj(ndPtr), cmpList);
+					if(list_isEndNode(ndPtr))
+						break;
+				}
+				
+				printf("-------------------------------------------------\n");
+				len = list_repeatFunc(mv_print,cmpList);
+				printf("\t- totally %d movies are listed!\n", len);
+				
+				break;	
 			case 5:
 				printf("Bye!\n\n");
 				exit_flag = 1;

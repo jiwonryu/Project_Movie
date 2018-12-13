@@ -52,10 +52,7 @@ float mv_getScore(void* obj)
 		printf("[ERROR] failed to print the movie Info! (object is NULL)\n");
 	}
 	
-	float score;
-	score = mvPtr->score;
-	
-	return score;
+	return mvPtr->score;
 }
 
 //return the runtime value from the input instance of movInfo_t structure
@@ -68,10 +65,7 @@ int mv_getRunTime(void* obj)
 		printf("[ERROR] failed to print the movie Info! (object is NULL)\n");
 	}
 	
-	int runTime;
-	runTime = mvPtr->runTime;
-	
-	return runTime;
+	return mvPtr->runTime;
 }
 
 //return the name string pointer from the input instance of movInfo_t structure
@@ -84,10 +78,7 @@ char* mv_getName(void* obj)
 		printf("[ERROR] failed to print the movie Info! (object is NULL)\n");
 	}
 	
-	char name[100];
-	strcpy(mvPtr->name, name); 
-		
-	return name;
+	return mvPtr->name;
 }
 
 //return the country string pointer from the input instance of movInfo_t structure
@@ -100,10 +91,7 @@ char* mv_getCountry(void* obj)
 		printf("[ERROR] failed to print the movie Info! (object is NULL)\n");
 	}
 	
-	char madeIn[10];
-	strcpy(mvPtr->madeIn, madeIn);
-	
-	return madeIn;
+	return mvPtr->madeIn;
 }
 
 
