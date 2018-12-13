@@ -60,7 +60,8 @@ int main(int argc, char *argv[]) {
 		printf("5. exit\n");
 		printf("------------------ Menu ------------------\n\n");
 		printf("-- select an option : ");
-		scanf("%d", &option);		
+		option = 0; // initialize option number for everytime
+		scanf("%d", &option);
 		while (getchar() != '\n');
 		
 		int len;
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]) {
 				usList = cmpList;
 				ndPtr = list;
 				len = 0;
-				printf("select a country : ");
+				printf("-- select a country : ");
 				scanf("%s", inputs); //input country
 				while (getchar() != '\n'); //clean buffer
 	
@@ -114,7 +115,7 @@ int main(int argc, char *argv[]) {
 				usList = cmpList;
 				ndPtr = list;
 				len = 0;
-				printf("input runtime : ");
+				printf("-- input runtime : ");
 				scanf("%d", &inputn); // input runtime
 				while (getchar() != '\n'); // clean buffer
 				
